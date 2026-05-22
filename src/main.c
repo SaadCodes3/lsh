@@ -51,6 +51,10 @@ int (*builtin_func[]) (char **) = {
   &lsh_env,
 };
 
+ //history ######################
+char history[100][1024];
+int history_count = 0;
+
 
 
 
@@ -147,10 +151,6 @@ int lsh_history(char **args)
   return 1;
 }
 
-
- //history ######################
-char history[100][1024];
-int history_count = 0;
 
 
 // env ############################################################################
