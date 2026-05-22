@@ -25,8 +25,8 @@ int lsh_help(char **args);
 int lsh_exit(char **args);
 int lsh_pwd(char **args);
 int lsh_echo(char **args);
-int lsh_env(char **args);
 int lsh_history(char **args);
+int lsh_env(char **args);
 
 /*
   List of builtin commands, followed by their corresponding functions.
@@ -37,8 +37,8 @@ char *builtin_str[] = {
   "exit",
   "pwd",
   "echo",
+  "history",
   "env",
-  "history"
 };
 
 int (*builtin_func[]) (char **) = {
@@ -47,13 +47,10 @@ int (*builtin_func[]) (char **) = {
   &lsh_exit,
   &lsh_pwd,
   &lsh_echo,
+  &lsh_history,
   &lsh_env,
-  &lsh_history
 };
 
- //history ######################
-char history[100][1024];
-int history_count = 0;
 
 
 
@@ -139,6 +136,23 @@ int lsh_echo(char **args)
 
   return 1;
 }
+
+// history ############################################################################
+int lsh_history(char **args)
+{
+  for (int i = 0; i < history_count; i++) {
+    printf("%d %s\n", i + 1, history[i]);
+  }
+
+  return 1;
+}
+
+
+ //history ######################
+char history[100][1024];
+int history_count = 0;
+
+
 // env ############################################################################
 extern char **environ;
 
@@ -153,17 +167,6 @@ int lsh_env(char **args)
 
   return 1;
 }
-// history ############################################################################
-int lsh_history(char **args)
-{
-  for (int i = 0; i < history_count; i++) {
-    printf("%d %s\n", i + 1, history[i]);
-  }
-
-  return 1;
-}
-
-
 /**
   @brief Launch a program and wait for it to terminate.
   @param args Null terminated list of arguments (including program).
