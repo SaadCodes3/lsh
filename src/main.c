@@ -330,8 +330,11 @@ void lsh_loop(void)
     printf("> ");
     line = lsh_read_line();
     
-    strcpy(history[history_count], line);
+    if (history_count < 100) {
+    strncpy(history[history_count], line, 1023);
+    history[history_count][1023] = '\0';
     history_count++;
+    }
 
     args = lsh_split_line(line);
     status = lsh_execute(args);
